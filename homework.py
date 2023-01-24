@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from dataclasses import asdict
+from dataclasses import dataclass, asdict
 from typing import List, Type, Dict
 
 
@@ -19,7 +18,7 @@ class InfoMessage:
                'Потрачено ккал: {calories:.3f}.')
 
     def get_message(self) -> str:
-        '''Вывод информации о тренировке'''
+        """Вывод информации о тренировке"""
         return self.MESSAGE.format(**asdict(self))
 
 
@@ -46,7 +45,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        raise NotImplementedError('Сначала начните тренировку')
+        raise NotImplementedError('Реализовать в дочерних классах')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -122,7 +121,7 @@ class Swimming(Training):
         self.count_pool = count_pool
 
     def get_mean_speed(self) -> float:
-        """Средняя скорость плавания."""
+        """Получить среднюю скорость плавания."""
         return (
             (
                 self.length_pool * self.count_pool
@@ -149,10 +148,11 @@ def read_package(workout_type: str, data: List[int]) -> Training:
         'RUN': Running,
         'WLK': SportsWalking
     }
-    if workout_type in workout_type_class:
-        return workout_type_class[workout_type](*data)
-    else:
-        raise ValueError('Неверный тип тренировки')
+    if (workout_type_class == 'SWM'
+       or workout_type_class == 'RUN'
+       or workout_type_class == 'WLK'):
+        raise ValueError('Передано неизвестное значение тренировки')
+    return workout_type_class[workout_type](*data)
 
 
 def main(training: Training) -> None:
