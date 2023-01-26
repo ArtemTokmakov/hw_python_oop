@@ -148,9 +148,7 @@ def read_package(workout_type: str, data: List[int]) -> Training:
         'RUN': Running,
         'WLK': SportsWalking
     }
-    if (workout_type_class == 'SWM'
-       or workout_type_class == 'RUN'
-       or workout_type_class == 'WLK'):
+    if workout_type not in workout_type_class:
         raise ValueError('Передано неизвестное значение тренировки')
     return workout_type_class[workout_type](*data)
 
